@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ExpenceSchema = new mongoose.Schema(
+const ExpenseSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true, maxLength: 50 },
     amount: { type: Number, required: true, trim: true, maxLength: 20 },
@@ -12,4 +12,4 @@ const ExpenceSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Expense", ExpenceSchema);
+module.exports = mongoose.model("Expense", ExpenseSchema);
