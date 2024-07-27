@@ -17,7 +17,9 @@ const addIncome = async (req, res) => {
     }
 
     if (amount <= 0 || !amount === "number") {
-      return res.status(400).json({ message: "Amount must be a positive number" });
+      return res
+        .status(400)
+        .json({ message: "Amount must be a positive number" });
     }
 
     await income.save();
@@ -47,7 +49,8 @@ const deleteIncome = async (req, res) => {
       return res.status(404).json({ message: "Income not found" });
     }
 
-    return res.status(200).json({ message: "Income deleted" });
+    const incomes = await IncomeSchema.find().sort({ createdAt: -1 });
+    return res.status(200).json(incomes);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
