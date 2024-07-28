@@ -21,9 +21,11 @@ const addExpense = async (req, res) => {
         .status(400)
         .json({ message: "Amount must be a positive number" });
     }
+    ////////////////
 
     await expense.save();
-    res.status(200).json({ message: "Expense added" });
+    const expenses = await ExpenseSchema.find().sort({ createdAt: -1 });
+    res.status(200).json(expenses);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
@@ -48,7 +50,8 @@ const deleteExpense = async (req, res) => {
       return res.status(404).json({ message: "Expense not found" });
     }
 
-    return res.status(200).json({ message: "Expense deleted" });
+    const expenses = await ExpenseSchema.find().sort({ createdAt: -1 });
+    return res.status(200).json(expenses);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
