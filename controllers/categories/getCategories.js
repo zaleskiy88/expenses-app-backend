@@ -1,4 +1,5 @@
 const { Category } = require("../../models/index");
+//  ===================================================//
 
 const getCategories = async (req, res) => {
   try {

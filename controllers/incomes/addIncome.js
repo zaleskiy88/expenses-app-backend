@@ -1,8 +1,10 @@
-const IncomeSchema = require("../../models/IncomeModel");
+const { IncomeSchemas } = require("../../models/index");
+//  ===================================================//
+const { Income } = IncomeSchemas;
 const addIncome = async (req, res) => {
   const { title, amount, date, category, description } = req.body;
 
-  const income = IncomeSchema({
+  const income = Income({
     title,
     amount,
     description,
@@ -23,7 +25,7 @@ const addIncome = async (req, res) => {
     }
 
     await income.save();
-    const incomes = await IncomeSchema.find().sort({ createdAt: -1 });
+    const incomes = await Income.find().sort({ createdAt: -1 });
     res.status(200).json(incomes);
   } catch (error) {
     res.status(500).json({ message: "Server error" });
