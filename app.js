@@ -4,6 +4,7 @@ const { readdirSync } = require("fs");
 const express = require("express");
 const cors = require("cors");
 const { logger } = require("./utils/index");
+
 const app = express();
 const PORT = process.env.PORT;
 
@@ -15,6 +16,15 @@ app.use(logger);
 ///Routes///
 readdirSync("./routes").map((route) => {
   app.use("/api/v1", require("./routes/" + route));
+});
+
+///Error handlers Middlewares///
+app.use((req, res) => {
+  res.status(404).json({ message: "Not found" });
+});
+
+app.use((err, req, res, next) => {
+  res.status(500).json({ message: err.message });
 });
 
 ///Server///
