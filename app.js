@@ -3,13 +3,14 @@ const { connectDB } = require("./db/db");
 const { readdirSync } = require("fs");
 const express = require("express");
 const cors = require("cors");
-
+const { logger } = require("./utils/index");
 const app = express();
 const PORT = process.env.PORT;
 
-///Middleware///
+///Middlewares///
 app.use(express.json());
 app.use(cors());
+app.use(logger);
 
 ///Routes///
 readdirSync("./routes").map((route) => {
@@ -24,5 +25,4 @@ const server = () => {
     console.log(`Server is running on port ${PORT}`);
   });
 };
-
 server();
