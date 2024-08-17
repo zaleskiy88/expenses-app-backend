@@ -3,7 +3,7 @@ const { connectDB } = require("./db/db");
 const { readdirSync } = require("fs");
 const express = require("express");
 const cors = require("cors");
-const { logger } = require("./utils/index");
+const { logger } = require("./middlewares/index");
 
 const app = express();
 const PORT = process.env.PORT;
