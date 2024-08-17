@@ -1,27 +1,17 @@
 const { IncomeSchemas } = require("../../models/index");
 const { HttpError } = require("../../utils/index");
 //  ===================================================//
-const { Income } = IncomeSchemas;
+const { Income, addIncomeSchema } = IncomeSchemas;
 
 const addIncome = async (req, res, next) => {
-  const { title, amount, date, category, description } = req.body;
-
-  const income = Income({
-    title,
-    amount,
-    description,
-    category,
-    date,
-  });
+  const income = Income(req.body);
 
   ///Validatons///
   try {
-    if (!title || !date || !category || !description) {
-      throw HttpError(400, "All fields are required");
-    }
+    const { error } = addIncomeSchema.validate(req.body);
 
-    if (amount <= 0 || !amount === "number") {
-      throw HttpError(400, "Amount must be a positive number");
+    if (error) {
+      throw HttpError(400, error.message);
     }
 
     await income.save();

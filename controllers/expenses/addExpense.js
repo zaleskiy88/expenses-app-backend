@@ -1,29 +1,18 @@
 const { ExpenseSchemas } = require("../../models/index");
 const { HttpError } = require("../../utils/index");
 //  ===================================================//
-const { Expense } = ExpenseSchemas;
+const { Expense, addExpenseSchema } = ExpenseSchemas;
 
 const addExpense = async (req, res, next) => {
-  const { title, amount, date, category, description } = req.body;
-
-  const expense = Expense({
-    title,
-    amount,
-    description,
-    category,
-    date,
-  });
+  const expense = Expense(req.body);
 
   ///Validatons///
   try {
-    if (!title || !date || !category || !description) {
-      throw HttpError(400, "All fields are required");
-    }
+    const { error } = addExpenseSchema.validate(req.body);
 
-    if (amount <= 0 || !amount === "number") {
-      throw HttpError(400, "Amount must be a positive number");
+    if (error) {
+      throw HttpError(400, error.message);
     }
-    ////////////////
 
     await expense.save();
     const expenses = await Expense.find().sort({ createdAt: -1 });
