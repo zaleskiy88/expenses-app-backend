@@ -1,3 +1,4 @@
 const logger = require("./logger");
+const HttpError = require("./HttpError");
 
-module.exports = { logger };
+module.exports = { logger, HttpError };
