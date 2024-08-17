@@ -4,9 +4,8 @@ const { HttpError } = require("../../utils/index");
 const { Income } = IncomeSchemas;
 
 const deleteIncome = async (req, res, next) => {
-  const { id } = req.params;
-
   try {
+    const { id } = req.params;
     const deleteIncome = await Income.findByIdAndDelete(id);
 
     if (!deleteIncome) {

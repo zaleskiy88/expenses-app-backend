@@ -4,10 +4,8 @@ const { HttpError } = require("../../utils/index");
 const { Expense, addExpenseSchema } = ExpenseSchemas;
 
 const addExpense = async (req, res, next) => {
-  const expense = Expense(req.body);
-
-  ///Validatons///
   try {
+    const expense = Expense(req.body);
     const { error } = addExpenseSchema.validate(req.body);
 
     if (error) {

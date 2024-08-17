@@ -4,9 +4,8 @@ const { HttpError } = require("../../utils/index");
 const { Expense } = ExpenseSchemas;
 
 const deleteExpense = async (req, res, next) => {
-  const { id } = req.params;
-
   try {
+    const { id } = req.params;
     const deleteExpense = await Expense.findByIdAndDelete(id);
 
     if (!deleteExpense) {

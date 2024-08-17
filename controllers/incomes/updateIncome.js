@@ -5,9 +5,8 @@ const { IncomeSchemas } = require("../../models/index");
 const { Income, addIncomeSchema } = IncomeSchemas;
 
 const updateIncome = async (req, res, next) => {
-  const { id } = req.params;
-
   try {
+    const { id } = req.params;
     const { error } = addIncomeSchema.validate(req.body);
 
     if (error) {

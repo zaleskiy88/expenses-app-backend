@@ -4,10 +4,8 @@ const { HttpError } = require("../../utils/index");
 const { Income, addIncomeSchema } = IncomeSchemas;
 
 const addIncome = async (req, res, next) => {
-  const income = Income(req.body);
-
-  ///Validatons///
   try {
+    const income = Income(req.body);
     const { error } = addIncomeSchema.validate(req.body);
 
     if (error) {

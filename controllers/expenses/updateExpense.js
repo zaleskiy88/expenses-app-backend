@@ -4,9 +4,8 @@ const { ExpenseSchemas } = require("../../models/index");
 
 const { Expense, addExpenseSchema } = ExpenseSchemas;
 const updateExpense = async (req, res, next) => {
-  const { id } = req.params;
-
   try {
+    const { id } = req.params;
     const { error } = addExpenseSchema.validate(req.body);
 
     if (error) {
