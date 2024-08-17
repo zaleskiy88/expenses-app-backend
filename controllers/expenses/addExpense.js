@@ -1,23 +1,19 @@
 const { ExpenseSchemas } = require("../../models/index");
-const { HttpError } = require("../../utils/index");
+const { HttpError, controllerWrapper } = require("../../utils/index");
 //  ===================================================//
 const { Expense, addExpenseSchema } = ExpenseSchemas;
 
 const addExpense = async (req, res, next) => {
-  try {
-    const expense = Expense(req.body);
-    const { error } = addExpenseSchema.validate(req.body);
+  const expense = Expense(req.body);
+  const { error } = addExpenseSchema.validate(req.body);
 
-    if (error) {
-      throw HttpError(400, error.message);
-    }
-
-    await expense.save();
-    const expenses = await Expense.find().sort({ createdAt: -1 });
-    res.status(201).json(expenses);
-  } catch (error) {
-    next(error);
+  if (error) {
+    throw HttpError(400, error.message);
   }
+
+  await expense.save();
+  const expenses = await Expense.find().sort({ createdAt: -1 });
+  res.status(201).json(expenses);
 };
 
-module.exports = addExpense;
+module.exports = controllerWrapper(addExpense);

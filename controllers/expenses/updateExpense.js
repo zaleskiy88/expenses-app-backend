@@ -1,4 +1,4 @@
-const { HttpError } = require("../../utils/index");
+const { HttpError, controllerWrapper } = require("../../utils/index");
 const { ExpenseSchemas } = require("../../models/index");
 //  ==============================================  //
 
@@ -25,4 +25,4 @@ const updateExpense = async (req, res, next) => {
   }
 };
 
-module.exports = updateExpense;
+module.exports = controllerWrapper(updateExpense);
