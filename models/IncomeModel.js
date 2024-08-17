@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
+const Joi = require("joi");
 
+//  ================Mongoose Schema===================================  //
 const IncomeSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true, maxLength: 50 },
@@ -14,4 +16,14 @@ const IncomeSchema = new mongoose.Schema(
 
 const Income = mongoose.model("Income", IncomeSchema);
 
-module.exports = { Income };
+//  ================Joi Schema===================================  //
+
+const addIncomeSchema = Joi.object({
+  title: Joi.string().required(),
+  amount: Joi.number().positive().required(),
+  date: Joi.date().required(),
+  category: Joi.string().required(),
+  description: Joi.string().required(),
+});
+
+module.exports = { Income, addIncomeSchema };
