@@ -4,25 +4,15 @@ const { ExpenseSchemas } = require("../../models/index");
 
 const { Expense, addExpenseSchema } = ExpenseSchemas;
 const updateExpense = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const { error } = addExpenseSchema.validate(req.body);
+  const { id } = req.params;
 
-    if (error) {
-      throw (HttpError(400), error.message);
-    }
-    const result = await Expense.findOneAndUpdate({ _id: id }, req.body, {
-      new: true,
-    });
+  const result = await Expense.findOneAndUpdate({ _id: id }, req.body, { new: true });
 
-    if (!result) {
-      throw (HttpError(400), "Not found");
-    }
-
-    res.status(200).json(result);
-  } catch (error) {
-    next(error);
+  if (!result) {
+    throw (HttpError(400), "Not found");
   }
+
+  res.status(200).json(result);
 };
 
 module.exports = controllerWrapper(updateExpense);
