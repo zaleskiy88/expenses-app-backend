@@ -8,11 +8,12 @@ const register = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
+  //checking if user already exists in db
   if (user) {
     throw HttpError(409, "Email already in use");
   }
-  const hashPassword = await bcrypt.hash(password, 10);
 
+  const hashPassword = await bcrypt.hash(password, 10);
   const newUser = User({ ...req.body, password: hashPassword });
   await newUser.save();
 
