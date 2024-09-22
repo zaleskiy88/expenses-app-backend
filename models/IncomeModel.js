@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const { mongooseErrorHandler } = require("../utils/index");
 
 //  ================Mongoose Schema===================================  //
 const IncomeSchema = new mongoose.Schema(
@@ -13,6 +14,9 @@ const IncomeSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+//Schema error handling
+IncomeSchema.post("save", mongooseErrorHandler);
 
 const Income = mongoose.model("Income", IncomeSchema);
 

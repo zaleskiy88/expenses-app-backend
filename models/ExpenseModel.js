@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const { mongooseErrorHandler } = require("../utils/index");
 
 //  ================Mongoose Schema===================================  //
 const ExpenseSchema = new mongoose.Schema(
@@ -13,6 +14,9 @@ const ExpenseSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+//Schema error handling
+ExpenseSchema.post("save", mongooseErrorHandler);
 
 const Expense = mongoose.model("Expense", ExpenseSchema);
 
