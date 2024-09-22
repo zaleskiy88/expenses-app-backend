@@ -1,5 +1,5 @@
 const { IncomeSchemas } = require("../../models/index");
-const { HttpError, controllerWrapper } = require("../../utils/index");
+const { controllerWrapper } = require("../../utils/index");
 //  ===================================================//
 const { Income } = IncomeSchemas;
 
