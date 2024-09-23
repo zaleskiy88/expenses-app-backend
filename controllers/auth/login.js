@@ -1,10 +1,12 @@
+require("dotenv").config();
 const { UserSchemas } = require("../../models/index");
 const { controllerWrapper, HttpError } = require("../../utils/index");
 const bcrypt = require("bcrypt");
-
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET_KEY } = process.env;
 const { User } = UserSchemas;
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   const { email, password } = req.body;
 
   //Checking if user exists in DB
@@ -20,7 +22,8 @@ const login = async (req, res) => {
   }
 
   //Creating token
-  const token = "gkorwkg35986t940tutfiwgjv5aeitgu853utg.daw";
+  const payload = { id: user._id.toString() };
+  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "10m" });
 
   res.json({ token });
 };
