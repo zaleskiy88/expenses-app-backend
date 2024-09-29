@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 //========================================================//
 
-const { JWT_SECRET_KEY } = process.env;
+const { JWT_SECRET_KEY, JWT_TOKEN_MAX_AGE } = process.env;
 const { User } = UserSchemas;
 
 const login = async (req, res, next) => {
@@ -24,9 +24,10 @@ const login = async (req, res, next) => {
     throw HttpError(401, "Email or password wrong or invalid");
   }
 
-  //Creating token
+  //Creating token and saving it in User DB
   const payload = { id: user._id.toString() };
-  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "10m" });
+  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: JWT_TOKEN_MAX_AGE });
+  await User.findByIdAndUpdate(user._id, { token });
 
   res.json({ token });
 };
