@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, match: emailRegexp, unique: true },
     password: { type: String, minength: 6, required: true },
+    token: { type: String, default: "" },
   },
   { versionKey: false, timestamps: true }
 );
