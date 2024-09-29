@@ -8,9 +8,10 @@ const addIncome = async (req, res, next) => {
   const { _id: owner } = req.user;
   const income = Income({ ...req.body, owner });
 
-  await income.save();
-  const incomes = await Income.find({ owner }).sort({ createdAt: -1 });
-  res.status(201).json(incomes);
+  const result = await income.save();
+  await income.populate("owner", "_id name email");
+
+  res.status(201).json(result);
 };
 
 module.exports = controllerWrapper(addIncome);
