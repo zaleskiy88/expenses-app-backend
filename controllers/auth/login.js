@@ -3,6 +3,9 @@ const { UserSchemas } = require("../../models/index");
 const { controllerWrapper, HttpError } = require("../../utils/index");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
+//========================================================//
+
 const { JWT_SECRET_KEY } = process.env;
 const { User } = UserSchemas;
 
