@@ -7,7 +7,8 @@ const jwt = require("jsonwebtoken");
 
 const { JWT_SECRET_KEY } = process.env;
 const { User } = UserSchemas;
-const authenticate = (req, res, next) => {
+
+const authenticate = async (req, res, next) => {
   const { authorization = "" } = req.headers;
   const [bearer, token] = authorization.split(" ");
 
@@ -19,16 +20,18 @@ const authenticate = (req, res, next) => {
   //validating token & user
   try {
     const { id } = jwt.verify(token, JWT_SECRET_KEY);
-    const user = User.findOne({ id });
+    const user = await User.findById(id);
 
     if (!user) {
       next(HttpError(401));
     }
+
+    //Adding user to request
+    req.user = user;
+    next();
   } catch {
     next(HttpError(401));
   }
-
-  next();
 };
 
 module.exports = authenticate;
