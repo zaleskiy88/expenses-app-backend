@@ -1,6 +1,6 @@
 const { IncomeSchemas } = require("../../models/index");
 const { HttpError, controllerWrapper } = require("../../utils/index");
-//  ===================================================//
+//  ======================delete Income=============================//
 const { Income } = IncomeSchemas;
 
 const deleteIncome = async (req, res, next) => {
@@ -12,8 +12,10 @@ const deleteIncome = async (req, res, next) => {
     throw HttpError(404, "Income not found");
   }
 
-  await result.populate("owner", "_id name email");
-  return res.status(200).json(result);
+  const incomes = await Income.find({ owner: ownerId })
+    .sort({ createdAt: -1 })
+    .populate("owner", "_id name email");
+  return res.status(200).json(incomes);
 };
 
 module.exports = controllerWrapper(deleteIncome);

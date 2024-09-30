@@ -1,6 +1,7 @@
 const { ExpenseSchemas } = require("../../models/index");
 const { HttpError, controllerWrapper } = require("../../utils/index");
-//  ===================================================//
+//  =======================delete Expense============================//
+
 const { Expense } = ExpenseSchemas;
 
 const deleteExpense = async (req, res, next) => {
@@ -13,8 +14,12 @@ const deleteExpense = async (req, res, next) => {
     throw HttpError(404, "Expense not found");
   }
 
-  await result.populate("owner", "_id name email");
-  return res.status(200).json(result);
+  const expenses = await Expense.find({ owner: ownerId })
+    .sort({
+      createdAt: -1,
+    })
+    .populate("owner", "_id name email");
+  return res.status(200).json(expenses);
 };
 
 module.exports = controllerWrapper(deleteExpense);
